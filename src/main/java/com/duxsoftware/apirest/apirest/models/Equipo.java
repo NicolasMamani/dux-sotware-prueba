@@ -15,6 +15,13 @@ public class Equipo {
     public Equipo() {
     }
 
+    public Equipo(Long id, String nombre, String liga, String pais) {
+        this.id = id;
+        this.nombre = nombre;
+        this.liga = liga;
+        this.pais = pais;
+    }
+
     public Equipo(String nombre, String liga, String pais) {
         this.nombre = nombre;
         this.liga = liga;
