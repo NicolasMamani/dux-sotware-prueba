@@ -3,9 +3,11 @@ package com.duxsoftware.apirest.apirest.controllers;
 import com.duxsoftware.apirest.apirest.DTO.EquipoRequest;
 import com.duxsoftware.apirest.apirest.models.Equipo;
 import com.duxsoftware.apirest.apirest.services.EquipoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -41,8 +43,11 @@ public class EquipoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createEquipo(@RequestBody EquipoRequest equipoRequest){
+    public ResponseEntity<?> createEquipo(@Valid @RequestBody EquipoRequest equipoRequest, BindingResult result){
         try{
+            if(result.hasErrors()){
+                throw new IllegalArgumentException();
+            }
             Equipo nuevoEquipo = equipoService.createEquipo(equipoRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoEquipo);
         }catch(IllegalArgumentException error){

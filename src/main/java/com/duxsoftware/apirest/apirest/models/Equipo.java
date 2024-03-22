@@ -1,6 +1,7 @@
 package com.duxsoftware.apirest.apirest.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "equipo")
@@ -8,8 +9,11 @@ public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String nombre;
+    @NotBlank
     private String liga;
+    @NotBlank
     private String pais;
 
     public Equipo() {

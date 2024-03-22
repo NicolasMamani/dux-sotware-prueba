@@ -1,8 +1,13 @@
 package com.duxsoftware.apirest.apirest.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class EquipoRequest {
+    @NotBlank
     private String nombre;
+    @NotBlank
     private String liga;
+    @NotBlank
     private String pais;
 
     public String getNombre() {
