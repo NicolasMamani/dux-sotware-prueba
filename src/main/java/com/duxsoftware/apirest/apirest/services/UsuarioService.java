@@ -29,7 +29,6 @@ public class UsuarioService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
     public String register(UsuarioRequest usuarioRequest){
         Usuario usuario = new Usuario();
         usuario.setUsername(usuarioRequest.getUsername());
