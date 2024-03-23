@@ -5,6 +5,9 @@ import com.duxsoftware.apirest.apirest.models.Rol;
 import com.duxsoftware.apirest.apirest.models.Usuario;
 import com.duxsoftware.apirest.apirest.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +26,9 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String login(UsuarioRequest usuarioRequest){
-        return null;
-    }
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     public String register(UsuarioRequest usuarioRequest){
         Usuario usuario = new Usuario();
@@ -33,6 +36,12 @@ public class UsuarioService {
         usuario.setPassword(passwordEncoder.encode(usuarioRequest.getPassword()));
         usuario.setRol(Rol.USER);
         usuarioRepository.save(usuario);
+        return jwtService.getToken(usuario);
+    }
+
+    public String login(UsuarioRequest usuarioRequest){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioRequest.getUsername(), usuarioRequest.getPassword()));
+        UserDetails usuario = usuarioRepository.findByUsername(usuarioRequest.getUsername()).orElseThrow();
         return jwtService.getToken(usuario);
     }
 

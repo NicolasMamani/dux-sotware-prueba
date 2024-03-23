@@ -22,3 +22,4 @@ INSERT INTO Equipo (nombre, liga, pais) VALUES ('SL Benfica', 'Primeira Liga', '
 INSERT INTO Equipo (nombre, liga, pais) VALUES ('Besiktas JK', 'Süper Lig', 'Turquía');
 INSERT INTO Equipo (nombre, liga, pais) VALUES ('SSC Napoli', 'Serie A', 'Italia');
 INSERT INTO Equipo (nombre, liga, pais) VALUES ('Atlético Madrid', 'La Liga', 'España');
+

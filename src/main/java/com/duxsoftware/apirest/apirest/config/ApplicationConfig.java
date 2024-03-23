@@ -16,10 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfig {
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    public ApplicationConfig() {
-    }
+    private final UsuarioRepository usuarioRepository;
 
     public ApplicationConfig(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;

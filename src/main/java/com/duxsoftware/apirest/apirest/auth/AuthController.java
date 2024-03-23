@@ -1,5 +1,6 @@
 package com.duxsoftware.apirest.apirest.auth;
 
+import com.duxsoftware.apirest.apirest.DTO.TokenResponse;
 import com.duxsoftware.apirest.apirest.DTO.UsuarioRequest;
 import com.duxsoftware.apirest.apirest.models.Rol;
 import com.duxsoftware.apirest.apirest.models.Usuario;
@@ -7,10 +8,9 @@ import com.duxsoftware.apirest.apirest.repositories.UsuarioRepository;
 import com.duxsoftware.apirest.apirest.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,14 +20,21 @@ public class AuthController {
     private UsuarioService usuarioService;
 
     @PostMapping( path = "/login")
-    public String login(@RequestBody UsuarioRequest user){
-
-        return "login";
+    public ResponseEntity<TokenResponse> login(@RequestBody UsuarioRequest usuarioRequest){
+        String token = usuarioService.login(usuarioRequest);
+        TokenResponse tokenResponse = new TokenResponse(token);
+        return ResponseEntity.ok(tokenResponse);
     }
 
     @PostMapping( value = "/register")
-    public ResponseEntity<String> register(@RequestBody UsuarioRequest usuarioRequest){
+    public ResponseEntity<TokenResponse> register(@RequestBody UsuarioRequest usuarioRequest){
+        String token = usuarioService.register(usuarioRequest);
+        TokenResponse response = new TokenResponse(token);
+        return ResponseEntity.ok(response);
+    }
 
-        return ResponseEntity.ok(usuarioService.register(usuarioRequest));
+    @GetMapping
+    public List<Usuario> findAll(){
+        return usuarioService.findAll();
     }
 }
