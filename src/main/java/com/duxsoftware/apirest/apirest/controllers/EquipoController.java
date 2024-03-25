@@ -34,7 +34,7 @@ import java.util.*;
             if(equipoOptional.isPresent()){
                 return ResponseEntity.ok(equipoOptional.orElseThrow());
             }
-            Map<String, Object> body = new LinkedHashMap<>(); // Utilizamos LinkedHashMap
+            Map<String, Object> body = new LinkedHashMap<>();
             body.put("mensaje", "Equipo no encontrado");
             body.put("codigo", HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
@@ -55,7 +55,7 @@ import java.util.*;
                 Equipo nuevoEquipo = equipoService.createEquipo(equipoRequest);
                 return ResponseEntity.status(HttpStatus.CREATED).body(nuevoEquipo);
             }catch(IllegalArgumentException error){
-                Map<String, Object> body = new LinkedHashMap<>(); // Utilizamos LinkedHashMap
+                Map<String, Object> body = new LinkedHashMap<>();
                 body.put("mensaje", "La solicitud es invalida");
                 body.put("codigo", HttpStatus.NOT_FOUND.value());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);

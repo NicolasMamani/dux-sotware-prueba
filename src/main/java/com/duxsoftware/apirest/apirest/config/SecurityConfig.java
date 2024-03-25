@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .sessionManagement(sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .headers().frameOptions().disable()
+                .and()
                 .build();
     }
 
@@ -44,6 +46,7 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/webjars/**",
             "/configuration/ui",
-            "/configuration/security"
+            "/configuration/security",
+            "/h2-console/**",
     };
 }

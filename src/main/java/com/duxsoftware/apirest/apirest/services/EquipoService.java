@@ -55,7 +55,6 @@ public class EquipoService {
     public Equipo updateEquipo(Long id, EquipoRequest equipoRequest){
         Equipo equipoExistente = equipoRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
-
         equipoExistente.setNombre(equipoRequest.getNombre());
         equipoExistente.setLiga(equipoRequest.getLiga());
         equipoExistente.setPais(equipoRequest.getPais());

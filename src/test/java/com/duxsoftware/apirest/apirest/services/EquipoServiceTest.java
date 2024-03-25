@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -56,6 +58,13 @@ public class EquipoServiceTest {
     }
 
     @Test
+    public void testFindByIdNotFound(){
+        when(equipoRepository.findById(999999999L)).thenReturn(Optional.empty());
+        Optional<Equipo> resultado = equipoService.findById(999999999L);
+        assertFalse(resultado.isPresent());
+    }
+
+    @Test
     public void testFindByNombreContaining(){
         String nombre = "FC";
         List<Equipo> equiposConFc = equipos.stream()
@@ -87,6 +96,16 @@ public class EquipoServiceTest {
     }
 
     @Test
+    public void testCreateEquipoAlreadyExists(){
+        EquipoRequest equipoRequest = new EquipoRequest();
+        equipoRequest.setNombre("Real Madrid");
+        equipoRequest.setLiga("La Liga");
+        equipoRequest.setPais("España");
+        when(equipoRepository.findByNombreAndLigaAndPais(anyString(), anyString(), anyString())).thenReturn(equipos.get(0));
+        assertThrows(IllegalArgumentException.class, () -> {equipoService.createEquipo(equipoRequest);});
+    }
+
+    @Test
     public void testUpdateEquipo(){
         Long equipoId = 2L;
         EquipoRequest equipoRequest = new EquipoRequest();
@@ -103,6 +122,17 @@ public class EquipoServiceTest {
         assertEquals("Barcelona Actualizado", equipoActualizado.getNombre());
         assertEquals("La Liga Actualizada", equipoActualizado.getLiga());
         assertEquals("España Actualizada", equipoActualizado.getPais());
+    }
+
+    @Test
+    public void testUpdateEquipoNotFound(){
+        Long equipoId = 999999999L;
+        EquipoRequest equipoRequest = new EquipoRequest();
+        equipoRequest.setNombre("Barcelona Actualizado");
+        equipoRequest.setLiga("La Liga Actualizada");
+        equipoRequest.setPais("España Actualizada");
+        when(equipoRepository.findById(equipoId)).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class, () -> {equipoService.updateEquipo(equipoId, equipoRequest);});
     }
 
     @Test

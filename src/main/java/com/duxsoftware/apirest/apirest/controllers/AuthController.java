@@ -1,10 +1,8 @@
-package com.duxsoftware.apirest.apirest.auth;
+package com.duxsoftware.apirest.apirest.controllers;
 
 import com.duxsoftware.apirest.apirest.DTO.TokenResponse;
 import com.duxsoftware.apirest.apirest.DTO.UsuarioRequest;
-import com.duxsoftware.apirest.apirest.models.Rol;
 import com.duxsoftware.apirest.apirest.models.Usuario;
-import com.duxsoftware.apirest.apirest.repositories.UsuarioRepository;
 import com.duxsoftware.apirest.apirest.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +24,14 @@ public class AuthController {
         return ResponseEntity.ok(tokenResponse);
     }
 
-    @PostMapping( value = "/register")
+    @PostMapping( path = "/register")
     public ResponseEntity<TokenResponse> register(@RequestBody UsuarioRequest usuarioRequest){
         String token = usuarioService.register(usuarioRequest);
         TokenResponse response = new TokenResponse(token);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping( path = "/users")
     public List<Usuario> findAll(){
         return usuarioService.findAll();
     }
